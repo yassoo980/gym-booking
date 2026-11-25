@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { CURRENCY, IMAGES, categoryOf, fmtDate, fmtTime, dayKey, dayParts, slotOf } from '../../lib/config';
+import { BRAND, CONTACT, CURRENCY, IMAGES, categoryOf, fmtDate, fmtTime, dayKey, dayParts, slotOf, waLink } from '../../lib/config';
 import { Modal, Photo, Skeleton, Empty, Tick } from '../../components/ui';
 
 const SLOTS = ['Any', 'Morning', 'Afternoon', 'Evening'];
@@ -172,7 +172,13 @@ function BookModal({ cls, sessions, initialDay, onClose, onBooked }) {
             <div><span>Payment</span><strong>{plan === 'monthly' ? 'Monthly' : 'Pay per class'}</strong></div>
             <div><span>Status</span><span className="badge ok">Confirmed</span></div>
           </div>
-          <button className="btn" onClick={onClose}>Done</button>
+          {CONTACT.whatsapp && (
+            <a className="btn wa-btn" target="_blank" rel="noopener noreferrer"
+              href={waLink(CONTACT.whatsapp, `Hi ${BRAND}, I just booked ${cls.name} on ${fmtDate(sel.starts_at)}. Name: ${name}, phone: ${phone}. Please confirm.`)}>
+              Send confirmation on WhatsApp
+            </a>
+          )}
+          <button className="btn ghost" onClick={onClose}>Done</button>
         </div>
       ) : step === 'confirm' ? (
         <>

@@ -2,7 +2,7 @@
 export const BRAND = 'Your Studio';
 export const CURRENCY = 'EGP';
 export const TAGLINE = 'Train hard. Book easy.';
-export const CONTACT = { phone: '', instagram: '', address: '' }; // shown in footer when filled
+export const CONTACT = { phone: '01099112166', whatsapp: '201099112166', instagram: '', address: '' }; // shown in footer when filled
 
 // Paste image URLs (or /images/x.jpg if you add files to a public folder). Empty = styled fallback.
 export const IMAGES = {
@@ -56,4 +56,12 @@ export const dayParts = (key) => {
 };
 export const slotOf = (iso) => { const h = new Date(iso).getHours(); return h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening'; };
 export const featuresOf = (p) => (p.description || '').split(/\n|•|;|\|/).map((s) => s.trim()).filter(Boolean);
+// WhatsApp: Egyptian numbers like 010xxxxxxxx become 2010xxxxxxxx. Opens WhatsApp with a ready message.
+export const toWa = (phone = '') => {
+  let d = String(phone).replace(/\D/g, '');
+  if (d.startsWith('00')) d = d.slice(2);
+  else if (d.startsWith('0')) d = '20' + d.slice(1);
+  return d;
+};
+export const waLink = (number, text = '') => `https://wa.me/${number}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 export const isAnnual = (p) => /year|annual|12/i.test(p.period || '');

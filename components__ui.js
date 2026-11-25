@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BRAND, TAGLINE, CONTACT } from '../lib/config';
+import { BRAND, TAGLINE, CONTACT, waLink } from '../lib/config';
 
 /* ---------- toasts ---------- */
 const ToastCtx = createContext(() => {});
@@ -126,7 +126,13 @@ function Footer() {
           <Link href="/admin">Staff login</Link>
         </div>
         <div className="muted">
-          {CONTACT.phone && <div>{CONTACT.phone}</div>}
+          {CONTACT.whatsapp && (
+            <a className="wa" href={waLink(CONTACT.whatsapp, `Hi ${BRAND}, I have a question.`)} target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" /></svg>
+              <span>Customer service<br /><strong>{CONTACT.phone}</strong></span>
+            </a>
+          )}
+          {!CONTACT.whatsapp && CONTACT.phone && <div>{CONTACT.phone}</div>}
           {CONTACT.instagram && <div>{CONTACT.instagram}</div>}
           {CONTACT.address && <div>{CONTACT.address}</div>}
         </div>

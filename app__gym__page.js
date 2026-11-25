@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { CURRENCY, featuresOf, isAnnual } from '../../lib/config';
+import { BRAND, CONTACT, CURRENCY, featuresOf, isAnnual, waLink } from '../../lib/config';
 import { Modal, Skeleton, Empty, Tick, Reveal } from '../../components/ui';
 
 export default function Gym() {
@@ -80,7 +80,13 @@ export default function Gym() {
               <div><span>Price</span><strong>{done.plan.price} {CURRENCY} / {done.plan.period}</strong></div>
               <div><span>Status</span><span className="badge acc">Pending confirmation</span></div>
             </div>
-            <button className="btn" onClick={() => setDone(null)}>Done</button>
+            {CONTACT.whatsapp && (
+              <a className="btn wa-btn" target="_blank" rel="noopener noreferrer"
+                href={waLink(CONTACT.whatsapp, `Hi ${BRAND}, I requested the ${done.plan.name} membership. Name: ${done.name}, phone: ${done.phone}.`)}>
+                Message us on WhatsApp
+              </a>
+            )}
+            <button className="btn ghost" onClick={() => setDone(null)}>Done</button>
           </div>
         )}
       </Modal>

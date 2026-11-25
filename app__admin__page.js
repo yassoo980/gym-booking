@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
-import { BRAND, CURRENCY, fmtDate } from '../../lib/config';
+import { BRAND, CURRENCY, fmtDate, toWa, waLink } from '../../lib/config';
 import { Modal, Skeleton, Empty, useToast } from '../../components/ui';
 
 const TABS = ['Overview', 'Classes', 'Schedule', 'Bookings', 'Gym plans', 'Gym sign-ups'];
@@ -336,6 +336,10 @@ function Bookings() {
                   <td>{b.plan === 'monthly' ? 'Monthly' : 'Per class'}</td>
                   <td><span className={`badge ${b.status === 'confirmed' ? 'ok' : 'bad'}`}>{b.status}</span></td>
                   <td style={{ whiteSpace: 'nowrap' }}>
+                    {b.status === 'confirmed' && b.sessions && (
+                      <a className="btn sm wa-btn" target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp ${b.name}`}
+                        href={waLink(toWa(b.phone), `Hi ${b.name}, your booking for ${b.sessions.classes?.name} on ${fmtDate(b.sessions.starts_at)} is confirmed. See you at ${BRAND}!`)}>WhatsApp</a>
+                    )}{' '}
                     {b.status === 'confirmed' && <button className="btn sm ghost" onClick={() => cancel(b)}>Cancel</button>}{' '}
                     <button className="btn sm danger" onClick={() => del(b)}>Delete</button>
                   </td>
@@ -380,7 +384,11 @@ function Signups() {
                   <td><strong>{r.name}</strong><div className="muted" style={{ fontSize: 13 }}>{r.phone}</div></td>
                   <td>{r.gym_plans ? `${r.gym_plans.name} · ${r.gym_plans.price} ${CURRENCY} / ${r.gym_plans.period}` : <span className="muted">Plan removed</span>}</td>
                   <td>{fmtDate(r.created_at)}</td>
-                  <td><button className="btn sm danger" onClick={() => del(r)}>Delete</button></td>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    <a className="btn sm wa-btn" target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp ${r.name}`}
+                      href={waLink(toWa(r.phone), `Hi ${r.name}, thanks for requesting the ${r.gym_plans?.name || 'gym'} membership at ${BRAND}. We'd love to get you started!`)}>WhatsApp</a>{' '}
+                    <button className="btn sm danger" onClick={() => del(r)}>Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
