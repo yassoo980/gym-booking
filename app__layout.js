@@ -7,7 +7,7 @@ const display = Big_Shoulders_Display({ subsets: ['latin'], weight: ['700', '800
 const body = DM_Sans({ subsets: ['latin'], variable: '--font-body' });
 
 export const metadata = { title: `${BRAND}: Gym and Classes`, description: TAGLINE };
-export const viewport = { themeColor: '#0A0C0F' };
+export const viewport = { themeColor: '#0B0705' };
 
 export default function RootLayout({ children }) {
   return (
